@@ -1,0 +1,92 @@
+<html>
+<head>
+    <canvas id="myChart" width="800" height="400"></canvas>
+    <style>
+canvas{
+    margin: 0 auto;
+    }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+        integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+    <script>
+        var ctx = document.getElementById("myChart").getContext("2d");
+
+        const colors = {
+            green: {
+                fill: '#e0eadf',
+                stroke: '#5eb84d',
+            },
+            lightBlue: {
+                stroke: '#6fccdd',
+            },
+            darkBlue: {
+                fill: '#92bed2',
+                stroke: '#3282bf',
+            },
+            purple: {
+                fill: '#8fa8c8',
+                stroke: '#75539e',
+            },
+        };
+
+        const negative = [{{#negative}}"{{.}}",{{/negative}}];
+        const positive = [{{#positive}}"{{.}}",{{/positive}}];
+        const pending = [{{#pending}}"{{.}}",{{/pending}}];
+        const deaths = [{{#deaths}}"{{.}}",{{/deaths}}];
+        const created_at = [{{#created_at}}"{{.}}",{{/created_at}}];
+
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: created_at,
+                datasets: [{
+                    label: "Deaths",
+                    fill: false,
+                    backgroundColor: colors.purple.fill,
+                    pointBackgroundColor: colors.purple.stroke,
+                    borderColor: colors.purple.stroke,
+                    pointHighlightStroke: colors.purple.stroke,
+                    borderCapStyle: 'butt',
+                    data: deaths,
+                }, {
+                    label: "Presumptive Positive",
+                    fill: false,
+                    backgroundColor: colors.darkBlue.fill,
+                    pointBackgroundColor: colors.darkBlue.stroke,
+                    borderColor: colors.darkBlue.stroke,
+                    pointHighlightStroke: colors.darkBlue.stroke,
+                    borderCapStyle: 'butt',
+                    data: positive,
+                }, {
+                    label: "Negative",
+                    fill: false,
+                    backgroundColor: colors.green.fill,
+                    pointBackgroundColor: colors.lightBlue.stroke,
+                    borderColor: colors.lightBlue.stroke,
+                    pointHighlightStroke: colors.lightBlue.stroke,
+                    borderCapStyle: 'butt',
+                    data: negative,
+                }]
+            },
+            options: {
+                responsive: false,
+                // Can't just just `stacked: true` like the docs say
+                {{! scales: {
+                    yAxes: [{
+                        stacked: true,
+                    }]
+                }, }}
+                animation: {
+                    duration: 750,
+                },
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <canvas id="myChart">
+    </canvas>
+</body>
+</html>
