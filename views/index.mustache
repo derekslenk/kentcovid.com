@@ -1,10 +1,14 @@
 <html>
 <head>
+<title>Kent County, MI COVID-19 Tracker</title>
     <canvas id="myChart" width="800" height="400"></canvas>
     <style>
 canvas{
     margin: 0 auto;
     }
+    p {
+    text-align: center;
+}
     </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
@@ -28,6 +32,9 @@ canvas{
                 fill: '#8fa8c8',
                 stroke: '#75539e',
             },
+            black: {
+                stroke: '#000000',
+            },
         };
 
         const negative = [{{#negative}}"{{.}}",{{/negative}}];
@@ -44,9 +51,9 @@ canvas{
                     label: "Deaths",
                     fill: false,
                     backgroundColor: colors.purple.fill,
-                    pointBackgroundColor: colors.purple.stroke,
-                    borderColor: colors.purple.stroke,
-                    pointHighlightStroke: colors.purple.stroke,
+                    pointBackgroundColor: colors.black.stroke,
+                    borderColor: colors.black.stroke,
+                    pointHighlightStroke: colors.black.stroke,
                     borderCapStyle: 'butt',
                     data: deaths,
                 }, {
@@ -88,5 +95,8 @@ canvas{
 <body>
     <canvas id="myChart">
     </canvas>
+    <p>Data sourced from <a href="https://www.accesskent.com/Health/coronavirus.htm">https://www.accesskent.com/Health/coronavirus.htm</a></p>
+    <p>All updates are automatic</p>
+    <p>To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.xyz">GitHub</a></p>
 </body>
 </html>
