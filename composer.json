@@ -1,5 +1,6 @@
 {
     "require": {
-        "mustache/mustache": "~2.5"
+        "mustache/mustache": "~2.5",
+        "aws/aws-sdk-php": "^3.134"
     }
 }
