@@ -1,7 +1,10 @@
 <html>
 <head>
 <title>Kent County, MI COVID-19 Tracker</title>
-    <canvas id="myChart" width="800" height="400"></canvas>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   
     <style>
 canvas{
     margin: 0 auto;
@@ -13,6 +16,16 @@ canvas{
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
         integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+    
+</head>
+
+<body>
+    <canvas id="myChart" width="800" height="400"></canvas>
+    <p><i>* - denotes no official data from Kent County</i></p>
+    <p>Data sourced from <a href="https://www.accesskent.com/Health/coronavirus.htm">https://www.accesskent.com/Health/coronavirus.htm</a></p>
+    <p>All updates are automatic</p>
+    <p>To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.xyz">GitHub</a></p>
+
     <script>
         var ctx = document.getElementById("myChart").getContext("2d");
 
@@ -87,16 +100,12 @@ canvas{
                 animation: {
                     duration: 750,
                 },
+                title: {
+                    display: true,
+                    text: 'Kent County, MI COVID-19 Tracker'
+                }
             }
         });
     </script>
-</head>
-
-<body>
-    <canvas id="myChart">
-    </canvas>
-    <p>Data sourced from <a href="https://www.accesskent.com/Health/coronavirus.htm">https://www.accesskent.com/Health/coronavirus.htm</a></p>
-    <p>All updates are automatic. Raw data from the Kent County website is stored in <a href="https://micovid-data.s3.us-east-2.amazonaws.com/">AWS</a>. Cleaned data is stored at <a href="https://kentcovid.xyz/data.json">data.json</a></p>
-    <p>To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.xyz">GitHub</a></p>
 </body>
 </html>
