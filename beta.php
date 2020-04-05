@@ -36,11 +36,11 @@ foreach ($data as $datum) {
 
     $submitted_delta[] = $datum["submitted"] - $prev_submitted;
     $negative_delta[] = $datum["negative"] - $prev_negative;
-    $delta_builder["x"] = $datum["created_at"];
-    $delta_builder["y"] = $datum["positive"] - $prev_positive;
-    $positive_delta[] = $delta_builder;
+    $positive_delta[] = $datum["positive"] - $prev_positive;
+    $deaths_delta[] = $datum["deaths"] - $prev_deaths;
 
     $prev_positive = $datum["positive"];
+    $prev_deaths = $datum["deaths"];
 }
 
 
@@ -56,4 +56,5 @@ echo $m->render('beta', array(
     'deaths' => $deaths, 
     'created_at' => $created_at,
     'positive_delta' => $positive_delta,
+    'deaths_delta' => $deaths_delta,
 ));

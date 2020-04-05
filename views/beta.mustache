@@ -26,7 +26,7 @@
     </head>
 
     <body class="bg-light">
-
+{{! 
         <nav class="site-header sticky-top py-1">
             <div class="container d-flex flex-column flex-md-row justify-content-between">
                 <a class="py-2" href="#" aria-label="Kent Covid">
@@ -34,41 +34,36 @@
                         <title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>
                 </a>
                 <a class="py-2 d-none d-md-inline-block" href="#trend_chart">Trend Chart</a>
-                <a class="py-2 d-none d-md-inline-block" href="#change_rate">Rate of Change</a>
+                <a class="py-2 d-none d-md-inline-block" href="#positive_delta_chart">Rate of Change</a>
                 <a class="py-2 d-none d-md-inline-block" href="https://github.com/derekslenk/kentcovid.xyz">GitHub</a>
             </div>
-        </nav>
+        </nav> }}
         <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
-
             <canvas id="trend_chart" width="800" height="400"></canvas>
+        </div>
+
+        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+                <canvas id="positive_delta_chart" width="800" height="400"></canvas>
+        </div>
+        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+                <canvas id="death_delta_chart" width="800" height="400"></canvas>
+        </div>
+        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
             <p>
                 <i>* - denotes no official data from Kent County</i>
             </p>
-
-        </div>
-
-        <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3" id="change_rate">
-            <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-                <canvas id="positive_change" width="400" height="400"></canvas>
-            </div>
-            <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <canvas id="negative_change" width="400" height="400"></canvas>
-            </div>
-        </div>
         <p>Data sourced from
-            <a href="https://www.accesskent.com/Health/coronavirus.htm">https://www.accesskent.com/Health/coronavirus.htm</a>
-        </p>
-        <p>All updates are automatic. Raw data from the Kent County website is stored in
+            <a href="https://www.accesskent.com/Health/coronavirus.htm">https://www.accesskent.com/Health/coronavirus.htm</a><br/>
+            All updates are automatic. Raw data from the Kent County website is stored in
             <a href="https://micovid-data.s3.us-east-2.amazonaws.com/">AWS</a>. Cleaned data is stored at
-            <a href="https://kentcovid.xyz/data.json">data.json</a>
-        </p>
-        {{ ! <p>To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.xyz">GitHub</a></p> }}
+            <a href="https://kentcovid.xyz/data.json">data.json</a><br/>
+            To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.xyz">GitHub</a></p>
         <p>Any preview work for this site can be seen at
             <a href="https://kentcovid.xyz/beta.php">https://kentcovid.xyz/beta.php</a>
         </p>
-
-        <script>
-            var ctx = document.getElementById("trend_chart").getContext("2d");         
+</div>
+<script>
+    var ctx = document.getElementById("trend_chart").getContext("2d");         
         const colors = {
                     green: {
                         fill: '#e0eadf',
@@ -89,12 +84,14 @@
                         stroke: '#000000',
                     },
                 };
-        
-                const negative = [{{#negative}}"{{.}}",{{/negative}}];
-                const positive = [{{#positive}}"{{.}}",{{/positive}}];
-                const pending = [{{#pending}}"{{.}}",{{/pending}}];
-                const deaths = [{{#deaths}}"{{.}}",{{/deaths}}];
-                const created_at = [{{#created_at}}"{{.}}",{{/created_at}}];
+
+        const negative = [{{#negative}}"{{.}}",{{/negative}}];
+        const positive = [{{#positive}}"{{.}}",{{/positive}}];
+        const pending = [{{#pending}}"{{.}}",{{/pending}}];
+        const deaths = [{{#deaths}}"{{.}}",{{/deaths}}];
+        const created_at = [{{#created_at}}"{{.}}",{{/created_at}}];
+        const positive_delta = [{{#positive_delta}}"{{.}}",{{/positive_delta}}];
+        const deaths_delta = [{{#deaths_delta}}"{{.}}",{{/deaths_delta}}];
         
                 const trend_chart = new Chart(ctx, {
                     type: 'line',
@@ -132,25 +129,74 @@
                     }
                 });
 
-        var ctx2 = document.getElementById("positive_change").getContext("2d");                             
-        const positive_delta = [{{#positive_delta}}{x:'{{x}}', y:{{y}}}, {{/positive_delta}}];
-
-        const positive_change = new Chart(ctx2, {
+        var ct2 = document.getElementById("positive_delta_chart").getContext("2d");
+        const positive_delta_chart = new Chart(ct2, {
             type: 'bar',
-            data: positive_delta,
-             options: {
-        scales: {
-            xAxes: [{
-                type: 'time',
-            }],
-            yAxes: [{
-                ticks: {
-                    sampleSize: 10,
+            data: {
+                labels: created_at,
+                datasets: [{
+                    label: "Positive Delta",
+                    fill: true,
+                    backgroundColor: colors.darkBlue.fill,
+                    pointBackgroundColor: colors.darkBlue.stroke,
+                    borderColor: colors.darkBlue.stroke,
+                    pointHighlightStroke: colors.darkBlue.stroke,
+                    borderCapStyle: 'butt',
+                    data: positive_delta,
+                }]
+            },
+            options: {
+                responsive: false,
+                // Can't just just `stacked: true` like the docs say
+                {{! scales: {
+                    yAxes: [{
+                        stacked: true,
+                    }]
+                }, }}
+                animation: {
+                    duration: 750,
+                },
+                title: {
+                    display: true,
+                    text: 'Positive Delta from Previous'
                 }
-            }]
-        }
-    },
+            }
         });
+
+        var ct3 = document.getElementById("death_delta_chart").getContext("2d");
+        const death_delta_chart = new Chart(ct3, {
+            type: 'bar',
+            data: {
+                labels: created_at,
+                datasets: [{
+                    label: "Deaths Delta",
+                    fill: false,
+                    backgroundColor: colors.purple.fill,
+                    pointBackgroundColor: colors.black.stroke,
+                    borderColor: colors.black.stroke,
+                    pointHighlightStroke: colors.black.stroke,
+                    borderCapStyle: 'butt',
+                    data:deaths_delta,
+                }]
+            },
+            options: {
+                responsive: false,
+                // Can't just just `stacked: true` like the docs say
+                {{! scales: {
+                    yAxes: [{
+                        stacked: true,
+                    }]
+                }, }}
+                animation: {
+                    duration: 750,
+                },
+                title: {
+                    display: true,
+                    text: 'Positive Delta from Previous'
+                }
+            }
+        });
+
 </script>
                                                             
                                                     
