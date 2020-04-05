@@ -49,7 +49,7 @@ $m = new Mustache_Engine(array(
     'entity_flags' => ENT_QUOTES,
 ));
 
-echo $m->render('index', array(
+echo $m->render('beta', array(
     'negative' => $negative,
     'positive' => $positive,
     'pending' => $pending, 
