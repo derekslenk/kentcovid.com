@@ -1,6 +1,13 @@
 {
     "require": {
         "mustache/mustache": "~2.5",
-        "aws/aws-sdk-php": "^3.134"
+        "aws/aws-sdk-php": "^3.134",
+        "twbs/bootstrap": "4.4.1"
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "rm -rf public/bootstrap",
+            "cp -R vendor/twbs/bootstrap/dist bootstrap"
+        ]
     }
 }
