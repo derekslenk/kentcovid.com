@@ -8,6 +8,7 @@
         <link rel="manifest" href="/site.webmanifest">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <meta name="description" content="Daily stats, graphed, for Kent County, MI COVID-19 cases. Data taken from Kent County's official website."/>
 
         <style>
             canvas {
@@ -19,8 +20,8 @@
         </style>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://kentcovid.xyz/bootstrap/js/bootstrap.min.js"></script>
-        <link href="https://kentcovid.xyz/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/covid.css" rel="stylesheet">
 
     </head>
@@ -46,9 +47,6 @@
                 <canvas id="positive_delta_chart" width="800" height="400"></canvas>
         </div>
         <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
-                <canvas id="death_delta_chart" width="800" height="400"></canvas>
-        </div>
-        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
             <p>
                 <i>* - denotes no official data from Kent County</i>
             </p>
@@ -56,7 +54,7 @@
             <a href="https://www.accesskent.com/Health/coronavirus.htm">https://www.accesskent.com/Health/coronavirus.htm</a><br/>
             All updates are automatic. Raw data from the Kent County website is stored in
             <a href="https://micovid-data.s3.us-east-2.amazonaws.com/">AWS</a>. Cleaned data is stored at
-            <a href="https://kentcovid.xyz/data.json">data.json</a><br/>
+            <a href="data.json">data.json</a><br/>
             To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.xyz">GitHub</a></p>
         <p>Any preview work for this site can be seen at
             <a href="https://beta.kentcovid.xyz/">https://beta.kentcovid.xyz/</a>
@@ -135,47 +133,17 @@
             data: {
                 labels: created_at,
                 datasets: [{
-                    label: "Positive Delta",
+                    label: "Daily Positive",
                     fill: true,
-                    backgroundColor: colors.darkBlue.fill,
-                    pointBackgroundColor: colors.darkBlue.stroke,
+                    backgroundColor: colors.darkBlue.stroke,
                     borderColor: colors.darkBlue.stroke,
-                    pointHighlightStroke: colors.darkBlue.stroke,
-                    borderCapStyle: 'butt',
                     data: positive_delta,
-                }]
-            },
-            options: {
-                responsive: false,
-                // Can't just just `stacked: true` like the docs say
-                {{! scales: {
-                    yAxes: [{
-                        stacked: true,
-                    }]
-                }, }}
-                animation: {
-                    duration: 750,
                 },
-                title: {
-                    display: true,
-                    text: 'Positive Delta from Previous'
-                }
-            }
-        });
-
-        var ct3 = document.getElementById("death_delta_chart").getContext("2d");
-        const death_delta_chart = new Chart(ct3, {
-            type: 'bar',
-            data: {
-                labels: created_at,
-                datasets: [{
-                    label: "Deaths Delta",
+                {
+                    label: "Daily Deaths",
                     fill: false,
-                    backgroundColor: colors.purple.fill,
-                    pointBackgroundColor: colors.black.stroke,
+                    backgroundColor: colors.black.stroke,
                     borderColor: colors.black.stroke,
-                    pointHighlightStroke: colors.black.stroke,
-                    borderCapStyle: 'butt',
                     data:deaths_delta,
                 }]
             },
@@ -192,7 +160,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Positive Delta from Previous'
+                    text: 'Daily Case Growth'
                 }
             }
         });

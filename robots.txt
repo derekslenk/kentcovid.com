@@ -1,0 +1,4 @@
+User-Agent: *
+Disallow: /vendor
+
+Sitemap: https://kentcovid.com/sitemap.xml
