@@ -13,7 +13,9 @@ $fileList = array();
 
 foreach ($xml->children() as $files) {
     if ($files->Key) {
-        $fileList[] = $files->Key[0];
+        if (strpos($files->Key[0],"kent")  !== false ){
+            $fileList[] = $files->Key[0];
+        }
     }
 }
 
@@ -24,6 +26,8 @@ foreach ($fileList as $file) {
     $final_data[$json_data["created_at"]] = $datum;
 }
 
-$fh = fopen('./data.json', 'w') or die("Error opening output file");
+$fh = fopen('/var/www/html/data.json', 'w') or die("Error opening output file");
 fwrite($fh, json_encode($final_data, JSON_UNESCAPED_UNICODE));
 fclose($fh);
+
+print("Crawl finished");

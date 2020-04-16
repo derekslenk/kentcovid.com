@@ -1,4 +1,5 @@
 User-Agent: *
 Disallow: /vendor
+Disallow: crawl.php
 
 Sitemap: https://kentcovid.com/sitemap.xml
