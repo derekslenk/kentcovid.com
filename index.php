@@ -49,6 +49,9 @@ $m = new Mustache_Engine(array(
     'entity_flags' => ENT_QUOTES,
 ));
 
+$lastModifiedTimestamp = filemtime("data.json");
+$lastModifiedDatetime = date("d M Y H:i:s", $lastModifiedTimestamp);
+
 echo $m->render('index', array(
     'negative' => $negative,
     'positive' => $positive,
@@ -57,4 +60,5 @@ echo $m->render('index', array(
     'created_at' => $created_at,
     'positive_delta' => $positive_delta,
     'deaths_delta' => $deaths_delta,
+    'lastmod' => $lastModifiedDatetime
 ));

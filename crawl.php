@@ -13,7 +13,7 @@ $fileList = array();
 
 foreach ($xml->children() as $files) {
     if ($files->Key) {
-        if (strpos($files->Key[0],"kent")  !== false ){
+        if (preg_match('/kent\/\d{4}\-\d{2}\-\d{2}/', $files->Key[0])) {
             $fileList[] = $files->Key[0];
         }
     }
