@@ -1,4 +1,4 @@
-# kentcovid.xyz
+# kentcovid.com
 Kent County, Michigan Covid Data
 
 
