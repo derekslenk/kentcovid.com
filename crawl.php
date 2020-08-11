@@ -2,7 +2,8 @@
 
 include './datum.php';
 
-$BASE_URL = "http://micovid-data.s3.us-east-2.amazonaws.com/";
+$BASE_URL = 'http://micovid-data.s3.us-east-2.amazonaws.com/';
+$DOWNLOAD_URL = 'http://micovid-data.s3-website.us-east-2.amazonaws.com/';
 
 
 
@@ -20,7 +21,7 @@ foreach ($xml->children() as $files) {
 }
 
 foreach ($fileList as $file) {
-    $data = file_get_contents($BASE_URL . $file);
+    $data = file_get_contents($DOWNLOAD_URL . $file);
     $json_data = json_decode($data, true);
     $datum = new Datum($json_data["submitted"], $json_data["negative"], $json_data["positive"], $json_data["pending"], $json_data["deaths"], $json_data["created_at"]);
     $final_data[$json_data["created_at"]] = $datum;

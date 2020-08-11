@@ -7,9 +7,11 @@
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
         <link rel="manifest" href="/site.webmanifest">
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Daily stats, graphed, for Kent County, MI COVID-19 cases. Data taken from Kent County's official website."/>
 
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <style>
             canvas {
                 margin: 0 auto;
@@ -24,9 +26,27 @@
                 width: 80vw;
             }
         </style>
+        <link href="static/css/covid.css" rel="stylesheet">
+    </head>
 
-        <script src="js/moment.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" ></script>
+    <body class="bg-light">
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <canvas id="trend-chart"></canvas>
+            <br/>
+            <canvas id="positive_delta_chart"></canvas>
+
+            <p><i>Data last generated at {{lastmod}} UTC<br/>
+                * - denotes no official data from Kent County</i>
+            </p>
+            <p>Data sourced from
+            <a href="https://www.accesskent.com/Health/coronavirus.htm">https://www.accesskent.com/Health/coronavirus.htm</a> and <a href="https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html">https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html</a><br/>
+            All updates are not automatic anymore. If anyone knows how to parse Microsoft BI public reports, please send an email to derek at slenk dot com. <br/> Raw data from the Kent County website is stored in
+            <a href="https://micovid-data.s3.us-east-2.amazonaws.com/">AWS</a>. Cleaned data is stored at
+            <a href="data.json">data.json</a><br/>
+            To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.com">GitHub</a><br/>
+                    <a rel="me" href="https://counter.social/@slenk">Mastodon</a>
+            </p>
+        </div>
         <script>
         colors = {
             green: {
@@ -67,11 +87,9 @@
                                     label: "Confirmed Positive",
                                     fill: false,
                                     borderColor: colors.darkBlue.stroke,
-                                    trendlineLinear: {
-                                            style: "rgba(255,105,180, .8)",
-                                            lineStyle: "line",
-                                            width: 1
-                                    },
+                                    pointRadius: 1.5,
+                                    pointBackgroundColor: colors.purple.stroke,
+    
                                 },{
                                     label: "Deaths",
                                     fill: false,
@@ -80,11 +98,7 @@
                                     borderColor: colors.black.stroke,
                                     pointHighlightStroke: colors.black.stroke,
                                     data: deaths,
-                                    trendlineLinear: {
-                                            style: "rgba(255,205,180, .8)",
-                                            lineStyle: "line",
-                                            width: 1
-                                    },
+                                    pointRadius: 1.5,
 
                                 }]
                             },
@@ -117,7 +131,7 @@
                     },
                 {
                     label: "Daily Deaths",
-                    fill: false,
+                    fill: true,
                     backgroundColor: colors.black.stroke,
                     borderColor: colors.black.stroke,
                     data:deaths_delta,
@@ -142,31 +156,10 @@
         });
         });
         </script>
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/covid.css" rel="stylesheet">
-
-    </head>
-
-    <body class="bg-light">
-
-        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
-            <canvas id="trend-chart"></canvas>
-            <br/>
-        <canvas id="positive_delta_chart"></canvas>
-
-        <p><i>Data last generated at {{lastmod}} UTC<br/>
-            * - denotes no official data from Kent County</i>
-        </p>
-        <p>Data sourced from
-        <a href="https://www.accesskent.com/Health/coronavirus.htm">https://www.accesskent.com/Health/coronavirus.htm</a> and <a href="https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html">https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html</a><br/>
-        All updates are not automatic anymore. If anyone knows how to parse Microsoft BI public reports, please send an email to derek at slenk dot com. <br/> Raw data from the Kent County website is stored in
-        <a href="https://micovid-data.s3.us-east-2.amazonaws.com/">AWS</a>. Cleaned data is stored at
-        <a href="data.json">data.json</a><br/>
-        To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.com">GitHub</a><br/>
-                <a rel="me" href="https://counter.social/@slenk">Mastodon</a>
-        </p>
-</div>
-
+        <script src="static/js/moment.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha512-M5KW3ztuIICmVIhjSqXe01oV2bpe248gOxqmlcYrEzAvws7Pw3z6BK0iGbrwvdrUQUhi3eXgtxp5I8PDo9YfjQ==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+        
 </body>
 </html>
 
