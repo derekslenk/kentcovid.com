@@ -25,7 +25,7 @@ foreach ($xml->children() as $files) {
 
 print_r($fileList);
 
-system('aws s3 sync s3://micovid-data/kent/ kent --recursive');
+system('aws s3 cp s3://micovid-data/kent/ kent --recursive');
 
 foreach ($fileList as $file) {
     $data = file_get_contents($file, false);
