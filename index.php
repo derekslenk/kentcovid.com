@@ -18,11 +18,8 @@ $str_data = file_get_contents("data.json");
 $data = json_decode($str_data, true);
 
 // Create blank arrays for all the needed processing.
-// I bet I could one line this somehow
-$submitted = $negative = $positive = $pending = $deaths = $created_at = $submitted_delta = $negative_delta = $positive_delta = $pending_delta = $deaths_delta = array();
+$submitted = $negative = $positive = $pending = $deaths = $created_at = $submitted_delta = $negative_delta = $positive_delta = $pending_delta = $deaths_delta = $delta_builder = array();
 $prev_submitted = $prev_negative = $prev_positive = $prev_pending = $prev_deaths = 0;
-
-$delta_builder = array();
 
 foreach ($data as $datum) {
     $submitted[] = $datum["submitted"];
