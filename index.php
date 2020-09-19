@@ -56,9 +56,7 @@ $lastModifiedTimestamp = filemtime("data.json");
 $lastModifiedDatetime = date("d M Y H:i:s T", $lastModifiedTimestamp);
 
 echo $m->render('index', array(
-    'negative' => $negative,
     'positive' => $positive,
-    'pending' => $pending, 
     'deaths' => $deaths, 
     'created_at' => $created_at,
     'positive_delta' => $positive_delta,
