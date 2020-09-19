@@ -1,11 +1,14 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
+date_default_timezone_set('America/Detroit');
 
 $str_data = file_get_contents("data.json");
 
 $data = json_decode($str_data, true);
 
+// Create blank arrays for all the needed processing.
+// I bet I could one line this somehow
 $submitted = array();
 $negative = array();
 $positive = array();
@@ -50,7 +53,7 @@ $m = new Mustache_Engine(array(
 ));
 
 $lastModifiedTimestamp = filemtime("data.json");
-$lastModifiedDatetime = date("d M Y H:i:s", $lastModifiedTimestamp);
+$lastModifiedDatetime = date("d M Y H:i:s T", $lastModifiedTimestamp);
 
 echo $m->render('index', array(
     'negative' => $negative,

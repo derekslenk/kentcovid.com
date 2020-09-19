@@ -1,122 +1,120 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Kent County, MI COVID-19 Tracker</title>
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Daily stats, graphed, for Kent County, MI COVID-19 cases. Data taken from Kent County's official website."/>
- <style>
-            canvas {
-                margin: 0 auto;
+<head>
+<title>Kent County, MI COVID-19 Tracker</title>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Daily stats, graphed, for Kent County, MI COVID-19 cases. Data taken from Kent County's official website."/>
+<style>
+    canvas {
+        margin: 0 auto;
+    }
+    p {
+        text-align: center;
+    }
+    .chart-container {
+        position: relative;
+        margin: auto;
+        height: 80vh;
+        width: 80vw;
+    }
+</style>
+<link href="static/css/covid.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+        <canvas id="trend-chart"></canvas>
+        <br/>
+        <canvas id="positive_delta_chart"></canvas>
+
+        <p><i>Data last generated at {{lastmod}}</i><br/>
+        * 2020-08-23 - Technical delay at capitol delaying data<br/>
+        * <a href="static/images/no-data-2020-08-29.png" target="_blank" rel="noreferrer">2020-08-29 - Technical delay at capitol delaying data</a><br/>
+        * <a href="static/images/no-data-2020-09-04.png" target="_blank" rel="norefferer">2020-09-04 - No data - unsure why. Numbers calculated based on 2020-09-05 data</a><br/>
+        * <b><a href="static/images/no-sunday-updates.png" target="_blank" rel="norefferer">2020-09-06 - No more Sunday updates</a></b>
+        </p>
+        <p>Data sourced from
+        <a href="https://www.accesskent.com/Health/covid-19-data.htm">https://www.accesskent.com/Health/covid-19-data.htm</a><br/>
+        All updates are not automatic anymore. If anyone knows how to parse Microsoft BI public reports, please send an email to derek at slenk dot com. <br/> Raw data from the Kent County website is stored in
+        <a href="https://micovid-data.s3.us-east-2.amazonaws.com/">AWS</a>. Cleaned data is stored at
+        <a href="data.json">data.json</a><br/>
+        To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.com">GitHub</a><br/>
+                <a rel="me" href="https://counter.social/@slenk">Mastodon</a>
+        </p>
+    </div>
+    <script>
+    colors = {
+        green: {
+            fill: '#e0eadf',
+            stroke: '#5eb84d',
+        },
+        lightBlue: {
+            stroke: '#6fccdd',
+        },
+        darkBlue: {
+            fill: '#92bed2',
+            stroke: '#3282bf',
+        },
+        purple: {
+            fill: '#8fa8c8',
+            stroke: '#75539e',
+        },
+        black: {
+            stroke: '#000000',
+        },
+    };
+
+    const negative = [{{#negative}}"{{.}}",{{/negative}}];
+    const positive = [{{#positive}}"{{.}}",{{/positive}}];
+    const pending = [{{#pending}}"{{.}}",{{/pending}}];
+    const deaths = [{{#deaths}}"{{.}}",{{/deaths}}];
+    const created_at = [{{#created_at}}"{{.}}",{{/created_at}}];
+    const positive_delta = [{{#positive_delta}}"{{.}}",{{/positive_delta}}];
+    const deaths_delta = [{{#deaths_delta}}"{{.}}",{{/deaths_delta}}];
+
+    document.addEventListener("DOMContentLoaded", function(event) {       
+        new Chart(document.getElementById("trend-chart"), {
+            type: 'line',
+            data: {
+                labels: [{{#created_at}}"{{.}}",{{/created_at}}],
+                datasets: [{
+                    data: [{{#positive}}"{{.}}",{{/positive}}],
+                    label: "Confirmed Positive",
+                    fill: false,
+                    borderColor: colors.darkBlue.stroke,
+                    pointRadius: 1.5,
+                    pointBackgroundColor: colors.purple.stroke,
+                },{
+                    label: "Deaths",
+                    fill: false,
+                    backgroundColor: colors.purple.fill,
+                    pointBackgroundColor: colors.black.stroke,
+                    borderColor: colors.black.stroke,
+                    pointHighlightStroke: colors.black.stroke,
+                    data: deaths,
+                    pointRadius: 1.5,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                title: {
+                    display: true,
+                    text: 'Kent County, MI COVID-19 Tracker'
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time'
+                    }]
+                }
+            
             }
-            p {
-                text-align: center;
-            }
-            .chart-container {
-                position: relative;
-                margin: auto;
-                height: 80vh;
-                width: 80vw;
-            }
-        </style>
-        <link href="static/css/covid.css" rel="stylesheet">
-    </head>
-
-    <body class="bg-light">
-        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
-            <canvas id="trend-chart"></canvas>
-            <br/>
-            <canvas id="positive_delta_chart"></canvas>
-
-            <p><i>Data last generated at {{lastmod}} UTC<br/>
-                * - denotes no official data from Kent County</i><br/>
-	* 2020-08-23 - Technical delay at capitol delaying data<br/>
-	* <a href="https://imgur.com/a/MZvVzmC" target="_blank" rel="noreferrer">2020-08-29 - Technical delay at capitol delaying data</a>
-            </p>
-            <p>Data sourced from
-            <a href="https://www.accesskent.com/Health/coronavirus.htm">https://www.accesskent.com/Health/coronavirus.htm</a> and <a href="https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html">https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html</a><br/>
-            All updates are not automatic anymore. If anyone knows how to parse Microsoft BI public reports, please send an email to derek at slenk dot com. <br/> Raw data from the Kent County website is stored in
-            <a href="https://micovid-data.s3.us-east-2.amazonaws.com/">AWS</a>. Cleaned data is stored at
-            <a href="data.json">data.json</a><br/>
-            To see source, file an issue or improve my crappy code, check out <a href="https://github.com/derekslenk/kentcovid.com">GitHub</a><br/>
-                    <a rel="me" href="https://counter.social/@slenk">Mastodon</a>
-            </p>
-        </div>
-        <script>
-        colors = {
-            green: {
-                fill: '#e0eadf',
-                stroke: '#5eb84d',
-            },
-            lightBlue: {
-                stroke: '#6fccdd',
-            },
-            darkBlue: {
-                fill: '#92bed2',
-                stroke: '#3282bf',
-            },
-            purple: {
-                fill: '#8fa8c8',
-                stroke: '#75539e',
-            },
-            black: {
-                stroke: '#000000',
-            },
-        };
-
-        const negative = [{{#negative}}"{{.}}",{{/negative}}];
-        const positive = [{{#positive}}"{{.}}",{{/positive}}];
-        const pending = [{{#pending}}"{{.}}",{{/pending}}];
-        const deaths = [{{#deaths}}"{{.}}",{{/deaths}}];
-        const created_at = [{{#created_at}}"{{.}}",{{/created_at}}];
-        const positive_delta = [{{#positive_delta}}"{{.}}",{{/positive_delta}}];
-        const deaths_delta = [{{#deaths_delta}}"{{.}}",{{/deaths_delta}}];
-
-        document.addEventListener("DOMContentLoaded", function(event) {       
-                        new Chart(document.getElementById("trend-chart"), {
-                            type: 'line',
-                            data: {
-                                labels: [{{#created_at}}"{{.}}",{{/created_at}}],
-                                datasets: [{
-                                    data: [{{#positive}}"{{.}}",{{/positive}}],
-                                    label: "Confirmed Positive",
-                                    fill: false,
-                                    borderColor: colors.darkBlue.stroke,
-                                    pointRadius: 1.5,
-                                    pointBackgroundColor: colors.purple.stroke,
-    
-                                },{
-                                    label: "Deaths",
-                                    fill: false,
-                                    backgroundColor: colors.purple.fill,
-                                    pointBackgroundColor: colors.black.stroke,
-                                    borderColor: colors.black.stroke,
-                                    pointHighlightStroke: colors.black.stroke,
-                                    data: deaths,
-                                    pointRadius: 1.5,
-
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: true,
-                                title: {
-                                    display: true,
-                                    text: 'Kent County, MI COVID-19 Tracker'
-                                },
-                                        scales: {
-            xAxes: [{
-                type: 'time',
-            }]
-        }
-                            }
-                        });
-
-                        new Chart(document.getElementById("positive_delta_chart"), {
+        });
+        new Chart(document.getElementById("positive_delta_chart"), {
             type: 'bar',
             data: {
                 labels: created_at,
@@ -147,20 +145,20 @@
                     text: 'Daily Case Growth'
                 },
                 scales: {
-            xAxes: [{
-                type: 'time',
-            }]
-        }
+                    xAxes: [{
+                        type: 'time',
+                    }]
+                }
             }
         });
-        });
-        </script>
-        <script src="static/js/moment.min.js"></script>
-        <script src="static/js/bootstrap.bundle.min.js"></script>
-        <script src="static/js/Chart.min.js" ></script>
-        
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    });
+    </script>
+    <script src="static/js/moment.min.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/Chart.min.js" ></script>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
        
 </body>
 </html>
