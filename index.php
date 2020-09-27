@@ -45,17 +45,14 @@ $seven_day_avg = new SplFixedArray(sizeof($positive_delta) + 6);
 
 for ($i = 0; $i < 6; $i++) {
     $seven_day_avg[$i] = 0;
-} 
+}
 
 $sma = trader_sma($positive_delta, 7);
 
-foreach($seven_day_avg as $key => $val) {
-    if (array_key_exists($key,$sma)) {
-        $seven_day_avg[$key] = round($sma[$key],2);
-    } else {
-
+foreach ($seven_day_avg as $key => $val) {
+    if (array_key_exists($key, $sma)) {
+        $seven_day_avg[$key] = round($sma[$key], 2);
     }
-}
 
 $m = new Mustache_Engine(
     array(
