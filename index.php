@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Main index file for KentCovid.com
  * 
@@ -20,6 +21,8 @@ $data = json_decode($str_data, true);
 // Create blank arrays for all the needed processing.
 $submitted = $negative = $positive = $pending = $deaths = $created_at = $submitted_delta = $negative_delta = $positive_delta = $pending_delta = $deaths_delta = $delta_builder = array();
 $prev_submitted = $prev_negative = $prev_positive = $prev_pending = $prev_deaths = 0;
+// $seven_day_avg = array();
+$sma = array();
 
 foreach ($data as $datum) {
     $submitted[] = $datum["submitted"];
@@ -38,11 +41,27 @@ foreach ($data as $datum) {
     $prev_deaths = $datum["deaths"];
 }
 
+$seven_day_avg = new SplFixedArray(sizeof($positive_delta) + 6);
+
+for ($i = 0; $i < 6; $i++) {
+    $seven_day_avg[$i] = 0;
+} 
+
+$sma = trader_sma($positive_delta, 7);
+
+foreach($seven_day_avg as $key => $val) {
+    if (array_key_exists($key,$sma)) {
+        $seven_day_avg[$key] = round($sma[$key],2);
+    } else {
+
+    }
+}
 
 $m = new Mustache_Engine(
     array(
-        'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/views'),
+        'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
         'entity_flags' => ENT_QUOTES,
+        'logger' => new Mustache_Logger_StreamLogger('php://stderr'),
     )
 );
 
@@ -57,6 +76,7 @@ echo $m->render(
         'created_at' => $created_at,
         'positive_delta' => $positive_delta,
         'deaths_delta' => $deaths_delta,
-        'lastmod' => $lastModifiedDatetime
+        'lastmod' => $lastModifiedDatetime,
+        'seven_day_avg' => $seven_day_avg,
     )
 );

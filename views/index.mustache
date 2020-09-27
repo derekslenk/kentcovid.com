@@ -80,6 +80,7 @@
     const created_at = [{{#created_at}}"{{.}}",{{/created_at}}];
     const positive_delta = [{{#positive_delta}}"{{.}}",{{/positive_delta}}];
     const deaths_delta = [{{#deaths_delta}}"{{.}}",{{/deaths_delta}}];
+    const seven_day_avg = [{{#seven_day_avg}}{{.}},{{/seven_day_avg}}];
 
     document.addEventListener("DOMContentLoaded", function(event) {       
         new Chart(document.getElementById("trend-chart"), {
@@ -106,6 +107,13 @@
             },
             options: {
                 responsive: true,
+                animation: {
+                        duration: 0 // general animation time
+                    },
+                hover: {
+                        animationDuration: 0 // duration of animations when hovering an item
+                    },
+                responsiveAnimationDuration: 0,
                 maintainAspectRatio: true,
                 title: {
                     display: true,
@@ -138,13 +146,25 @@
                     borderColor: colors.black.stroke,
                     data:deaths_delta,
                     barPercentage: 0.5,
+                },
+                {
+                    label: "Seven Day Average",
+                    data: seven_day_avg,
+                    fill: false,
+                    borderColor: 'rgba(255,0,0,0.5)',
+                    type: 'line',
+                    pointRadius: 1.5
                 }]
             },
             options: {
                 responsive: true,
                 animation: {
-                    duration: 750,
-                },
+                        duration: 0 // general animation time
+                    },
+                hover: {
+                        animationDuration: 0 // duration of animations when hovering an item
+                    },
+                responsiveAnimationDuration: 0, // animation duration after a resize
                 title: {
                     display: true,
                     text: 'Daily Case Growth'
