@@ -53,7 +53,6 @@ foreach ($seven_day_avg as $key => $val) {
     if (array_key_exists($key, $sma)) {
         $seven_day_avg[$key] = round($sma[$key], 2);
     }
-}
 
 $m = new Mustache_Engine(
     array(
