@@ -2,8 +2,5 @@
     "require": {
         "mustache/mustache": "~2.5",
         "aws/aws-sdk-php": "^3.134"
-    },
-    "require-dev": {
-        "squizlabs/php_codesniffer": "^3.5"
     }
 }
