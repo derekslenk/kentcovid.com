@@ -33,7 +33,7 @@
     <div class="chart-container" style="position: relative; height:40vh; width:80vw">
     <h3>Kent County, MI COVID-19 Tracker</h3>
     <p>Best viewed in landscape<br/> 
-    <i>Data last generated at {{lastmod}}</i> | <a href="https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html" target="_blank" rel="norefferer">Kent County has a <b>10.50%</b> positive testing rate.<br/>    <a href="https://www.reddit.com/r/CoronavirusMichigan/comments/jj202t/no_the_increase_in_cases_in_michigan_is_not/"target="_blank" rel="norefferer"> No, the increase in cases in Michigan is not driven from increased testing</a> </p>
+    <i>Data last generated at {{lastmod}}</i> | <a href="https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html" target="_blank" rel="norefferer">Kent County has a <b>14.19%</b> positive testing rate as of 2020-11-09<br/>    <a href="https://www.reddit.com/r/CoronavirusMichigan/comments/jj202t/no_the_increase_in_cases_in_michigan_is_not/"target="_blank" rel="norefferer"> No, the increase in cases in Michigan is not driven from increased testing</a> </p>
         <canvas id="positive_delta_chart"></canvas>
         <br/>
         <canvas id="trend-chart"></canvas>
@@ -136,7 +136,7 @@
             data: {
                 labels: created_at,
                 datasets: [{
-                    label: "Daily Positive",
+                    label: "Confirmed Positive",
                     fill: true,
                     backgroundColor: colors.darkBlue.stroke,
                     borderColor: colors.darkBlue.stroke,
@@ -144,7 +144,7 @@
                     barPercentage: 0.5,
                     },
                 {
-                    label: "Daily Deaths",
+                    label: "Confirmed Deaths",
                     fill: true,
                     backgroundColor: colors.black.stroke,
                     borderColor: colors.black.stroke,
@@ -171,7 +171,7 @@
                 responsiveAnimationDuration: 0, // animation duration after a resize
                 title: {
                     display: true,
-                    text: 'Daily Case Growth'
+                    text: 'Daily Confirmed Case Growth'
                 },
                 scales: {
                     xAxes: [{
