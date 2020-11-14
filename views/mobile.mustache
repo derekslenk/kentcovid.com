@@ -12,46 +12,39 @@
 <meta name="keywords" content="coronavirus, covid-19, covid-19 kent county, coronavirus kent county michigan"/>
 <style>
     canvas {
-        margin:  auto;
+        margin: 0 auto;
     }
-    {{! p {
+    p {
         text-align: center;
-    } }}
-    h2 {
+    }
+    h3 {
         text-align: center;
-    } 
+    }
     .chart-container {
         position: relative;
         margin: auto;
-        height: 100vh;
+        height: 80vh;
         width: 80vw;
     }
 </style>
 <link href="static/css/covid.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-    <div class="chart-container" style="position: left; height:40vh; width:{{device_width}};">
+    <div class="chart-container" style="position: relative; height:40vh; width:{{device_width}};">
     <h1>Kent County, MI COVID-19 Tracker</h1>
     <p>Best viewed in landscape<br/> 
     <i>Data last generated at {{lastmod}}</i> | <a href="https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html" target="_blank" rel="norefferer">Kent County has a <b>16.82%</b> positive testing rate as of 2020-11-12<br/>    <a href="https://www.reddit.com/r/CoronavirusMichigan/comments/jj202t/no_the_increase_in_cases_in_michigan_is_not/"target="_blank" rel="norefferer"> No, the increase in cases in Michigan is not driven from increased testing</a> </p>
-<h2>Daily Confirmed Case Growth</h2>
-        <canvas id="positive_delta_chart" aria-label="Daily Confirmed Case Growth" role="img" >
-        <p> Javascript is required for now. Sorry :(  </p>
-        </canvas>
+        <canvas id="positive_delta_chart" aria-label="Hello ARIA World" role="img" ></canvas>
         <br/>
-<h2>Cumulative Totals</h2>
-        <canvas id="trend-chart" aria-label="Cumulative Totals" role="img">
-        <p> Javascript is required for now. Sorry :(  </p>
-        </canvas>
+        <canvas id="trend-chart"></canvas>
         <br/>
-<h3>Some Notes</h3>
-        <p><i>
+        <p>
         * 2020-08-23 - Technical delay at capitol delaying data<br/>
         * <a href="static/images/no-data-2020-08-29.png" target="_blank" rel="noreferrer">2020-08-29 - Technical delay at capitol delaying data</a><br/>
         * <a href="static/images/no-data-2020-09-04.png" target="_blank" rel="norefferer">2020-09-04 - No data - unsure why. Numbers calculated based on 2020-09-05 data</a><br/>
         * <b><a href="static/images/no-sunday-updates.png" target="_blank" rel="norefferer">2020-09-06 - No more Sunday updates</a></b><br/>
         * <a href="static/images/no-data-2020-09-23.png" target="_blank" rel="norefferer">2020-09-22 - Data delayed until next day.</a><br/>
-        * <a href="static/images/no-data-2020-09-29.png" target="_blank" rel="norefferer">2020-09-29 - Technical issues locally.</a></i>
+        * <a href="static/images/no-data-2020-09-29.png" target="_blank" rel="norefferer">2020-09-29 - Technical issues locally.</a>
         </p>
         <p>Data sourced from
         <a href="https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html">https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html</a><br/>
@@ -127,7 +120,7 @@
                 responsiveAnimationDuration: 0,
                 maintainAspectRatio: true,
                 title: {
-                    display: false,
+                    display: true,
                     text: 'Cumulative Totals'
                 },
                 scales: {
@@ -177,7 +170,7 @@
                     },
                 responsiveAnimationDuration: 0, // animation duration after a resize
                 title: {
-                    display: false,
+                    display: true,
                     text: 'Daily Confirmed Case Growth'
                 },
                 scales: {
