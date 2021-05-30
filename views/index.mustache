@@ -1,40 +1,52 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>Kent County, MI COVID-19 Tracker</title>
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-<meta name="description" content="Daily stats, graphed, for Kent County, MI COVID-19 / Coronavirus cases. Data taken from Kent County's official website."/>
-<meta name="keywords" content="coronavirus, covid-19, covid-19 kent county, coronavirus kent county michigan"/>
-<style>
-    canvas {
-        margin:  auto;
-    }
-    {{! p {
-        text-align: center;
-    } }}
-    h2 {
-        text-align: center;
-    } 
-    .chart-container {
-        position: relative;
-        margin: auto;
-        height: 100vh;
-        width: 80vw;
-    }
-</style>
-<link href="static/css/covid.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <title>Kent County, MI COVID-19 Tracker</title>
+    <link href="static/css/covid.css" rel="stylesheet">
+    <style>
+        canvas {
+            margin:  auto;
+        }
+        {{! p {
+            text-align: center;
+        } }}
+        h2 {
+            text-align: center;
+        } 
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 100vh;
+            width: 80vw;
+        }
+    </style>
+
+    <meta name="description" content="Daily stats, graphed, for Kent County, MI COVID-19 / Coronavirus cases. Data taken from Kent County's official website."/>
+    <meta property="og:title" content="Kent County, MI COVID-19 Tracker">
+    <meta property="og:description" content="Daily stats, graphed, for Kent County, MI COVID-19 / Coronavirus cases. Data taken from Kent County's official website.">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kentcovid.com/">
+    <link rel="canonical" href="https://kentcovid.com/">
+
+    <meta name="keywords" content="coronavirus, covid-19, covid-19 kent county, coronavirus kent county michigan"/>
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+
 </head>
 <body class="bg-light">
     <div class="chart-container" style="position: left; height:40vh; width:{{device_width}};">
     <h1>Kent County, MI COVID-19 Tracker</h1>
     <p>Best viewed in landscape on mobile<br/> 
-    Got my first dose of the Pfizer vaccine!<br/> 
-    <i><b>Graphs last updated at {{lastmod}}</b></i> | <a href="/static/images/2021-03/2021-03-28-diag-percent.png" target="_blank" rel="norefferer">Kent County has a <b>15.64%</b> positive testing rate as of 2021-03-28<br/>    <a href="https://www.reddit.com/r/CoronavirusMichigan/comments/jj202t/no_the_increase_in_cases_in_michigan_is_not/"target="_blank" rel="norefferer"> No, the increase in cases in Michigan is not driven from increased testing</a> </p>
+    I am fully vaccinated!<br/> 
+    <i><b>Graphs last updated at {{lastmod}}</b></i> | No more data until June 1 </p>
 <h2>Daily Confirmed Case Growth</h2>
         <canvas id="positive_delta_chart" aria-label="Daily Confirmed Case Growth" role="img" >
         <p> Javascript is required for now. Sorry :(  </p>
