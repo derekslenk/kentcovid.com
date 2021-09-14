@@ -46,17 +46,20 @@
     <h1>Kent County, MI COVID-19 Tracker</h1>
     <p>Best viewed in landscape on mobile<br/> 
     I am fully vaccinated!<br/> 
-    <i><b>Graphs last updated at {{lastmod}}</b></i> | No more data until June 1 </p>
+    <i><b>Graphs last updated at {{lastmod}}</b></i></p>
 <h2>Daily Confirmed Case Growth</h2>
         <canvas id="positive_delta_chart" aria-label="Daily Confirmed Case Growth" role="img" >
         <p> Javascript is required for now. Sorry :(  </p>
         </canvas>
         <br/>
 <h2>Cumulative Totals</h2>
-        <canvas id="trend-chart" aria-label="Cumulative Totals" role="img">
+        <canvas id="trend-chart" aria-label="Positive" role="img">
         <p> Javascript is required for now. Sorry :(  </p>
         </canvas>
         <br/>
+        <canvas id="confirmed-deaths" aria-label="Cumulative Totals" role="img">
+        <p> Javascript is required for now. Sorry :(  </p>
+        </canvas>
 <h3>Nota Bene</h3>
         <p><i>
         * 2020-08-23 - Technical delay at capitol delaying data<br/>
@@ -116,15 +119,6 @@
                     borderColor: colors.darkBlue.stroke,
                     pointRadius: 1.5,
                     pointBackgroundColor: colors.purple.stroke,
-                },{
-                    label: "Deaths",
-                    fill: false,
-                    backgroundColor: colors.purple.fill,
-                    pointBackgroundColor: colors.black.stroke,
-                    borderColor: colors.black.stroke,
-                    pointHighlightStroke: colors.black.stroke,
-                    data: deaths,
-                    pointRadius: 1.5,
                 }]
             },
             options: {
@@ -149,6 +143,7 @@
             
             }
         });
+        
         new Chart(document.getElementById("positive_delta_chart"), {
             type: 'bar',
             data: {
@@ -196,6 +191,42 @@
                         type: 'time',
                     }]
                 }
+            }
+        });
+
+        new Chart(document.getElementById("confirmed-deaths"), {
+            type: 'line',
+            data: {
+                labels: [{{#created_at}}"{{.}}",{{/created_at}}],
+                datasets: [{
+                    data: [{{#deaths}}"{{.}}",{{/deaths}}],
+                    label: "Confirmed Deaths",
+                    fill: false,
+                    borderColor: colors.black.stroke,
+                    pointRadius: 1.5,
+                    pointBackgroundColor: colors.black.stroke,
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: {
+                        duration: 0 // general animation time
+                    },
+                hover: {
+                        animationDuration: 0 // duration of animations when hovering an item
+                    },
+                responsiveAnimationDuration: 0,
+                maintainAspectRatio: true,
+                title: {
+                    display: false,
+                    text: 'Cumulative Totals'
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time'
+                    }]
+                }
+            
             }
         });
     });
