@@ -1,4 +1,7 @@
 {
+    "name":"derekslenk/kentcovid",
+    "description":"Module to generate kentcovid.com's data",
+    "license":"MIT",
     "require": {
         "mustache/mustache": "~2.5",
         "aws/aws-sdk-php": "^3.134"
