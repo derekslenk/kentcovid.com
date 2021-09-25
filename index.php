@@ -68,11 +68,11 @@ foreach ($seven_day_avg as $key => $val) {
     }
 }
 $m = new Mustache_Engine(
-    array(
-        'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
+    [
+        'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/'),
         'entity_flags' => ENT_QUOTES,
         'logger' => new Mustache_Logger_StreamLogger('php://stderr'),
-    )
+    ]
 );
 
 $lastModifiedTimestamp = filemtime("data.json");
