@@ -3,7 +3,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 include './datum.php';
-
+include "./sitemap-generator.php";
 
 $BASE_URL = 'https://micovid-data.s3.us-east-2.amazonaws.com/';
 // $DOWNLOAD_URL = 'http://micovid-data.s3-website.us-east-2.amazonaws.com/';
@@ -37,4 +37,11 @@ $fh = fopen('/var/www/html/data.json', 'w') or die("Error opening output file");
 fwrite($fh, json_encode($final_data, JSON_UNESCAPED_UNICODE));
 fclose($fh);
 
-print("Crawl finished\n");
+Print("Generating Sitemap\n");
+
+// Create an object of the generator class passing the config file
+$smg = new SitemapGenerator(include("sitemap-config.php"));
+// Run the generator
+$smg->GenerateSitemap();
+
+print("\nCrawl finished\n");
