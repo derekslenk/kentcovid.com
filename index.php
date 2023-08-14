@@ -60,7 +60,7 @@ for ($i = 0; $i < 6; $i++) {
     $seven_day_avg[$i] = 0;
 }
 
-$sma = trader_sma($positive_delta, 7);
+$sma = Trader::sma($positive_delta, 7);
 
 foreach ($seven_day_avg as $key => $val) {
     if (array_key_exists($key, $sma)) {

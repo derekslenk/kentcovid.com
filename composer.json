@@ -5,6 +5,7 @@
     "require": {
       "mustache/mustache": "~2.5",
       "aws/aws-sdk-php": "^3.134",
-      "ext-json": "*"
+      "ext-json": "*",
+        "lupecode/php-trader-native": "^1.2"
     }
 }
