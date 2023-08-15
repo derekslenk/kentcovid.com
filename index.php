@@ -12,6 +12,9 @@
  * @link     https://kentcovid.com
  */
 require __DIR__ . '/vendor/autoload.php';
+
+use LupeCode\phpTraderNative\Trader;
+
 date_default_timezone_set('America/Detroit');
 
 $str_data = file_get_contents("data.json");
